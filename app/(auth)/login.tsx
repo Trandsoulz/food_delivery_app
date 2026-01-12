@@ -5,7 +5,7 @@ const Login = () => {
   return (
     <>
       <Text className=''>Login Page</Text>
-      <Button title="Login" onPress={() => { router.push('/signup')}} />
+      <Button title="Login" onPress={() => { router.push('/profile')}} />
     </>
   )
 }
