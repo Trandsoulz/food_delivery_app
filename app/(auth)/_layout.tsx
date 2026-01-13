@@ -31,13 +31,13 @@ const _layout = () => {
             resizeMode="contain"
             className="size-full"
           />
-          <Image source={images.logo} className="self-center size-48 absolute -bottom-16" />
-
-          <Input placeholder="Enter your email" label="Email" keyboardType="email-address" secureTextEntry={false} />
-          <Button />
+          <Image
+            source={images.logo}
+            className="self-center size-48 absolute -bottom-16"
+          />
         </View>
+        <Slot />
       </ScrollView>
-      <Slot />
     </KeyboardAvoidingView>
   );
 };

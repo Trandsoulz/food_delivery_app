@@ -21,7 +21,7 @@ export default function Input({
 
       <TextInput
         autoCapitalize="none"
-        autoCorrect={false}
+        autoCorrect={true}
         placeholder={placeholder}
         placeholderTextColor="#888"
         value={value}
