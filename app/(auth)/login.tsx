@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { logIn } from "@/lib/appwrite";
 import { Link } from "expo-router";
 import { useState } from "react";
 // import { router } from "expo-router";
@@ -18,21 +19,22 @@ const Login = () => {
   }
 
   const handleFormSubmit = async () => {
+    const { email, password } = form;
     setIsSubmitting(true);
     // Perform login logic here
     try {
-       if(!form.email || !form.password) {
+       if(!email || !password) {
         Alert.alert("Error", "Please fill in all fields");
         setIsSubmitting(false);
         return;
        }
 
         // Simulate a network request
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await logIn({ email, password });
         Alert.alert("Success", "Login Successful");
         // router.replace("/(tabs)/home");
     } catch (error: any) {
-      Alert.alert(error, "An error occurred during login");
+      Alert.alert("Error", error?.message || "An error occurred during login");
     } finally {
       setIsSubmitting(false);
     }

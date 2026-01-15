@@ -1,8 +1,8 @@
-import { View, Text, Alert } from "react-native";
-import React, { useState } from "react";
-import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 import { Link, router } from "expo-router";
+import React, { useState } from "react";
+import { Alert, Text, View } from "react-native";
 
 import { signUp } from "@/lib/appwrite";
 
@@ -34,7 +34,7 @@ const Signup = () => {
       Alert.alert("Success", "Sign Up Successful");
       router.replace("/");
     } catch (error: any) {
-      Alert.alert(error, "An error occurred during sign up");
+      Alert.alert("Error", error?.message || "An error occurred during sign up");
     } finally {
       setIsSubmitting(false);
     }

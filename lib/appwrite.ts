@@ -1,10 +1,19 @@
 import { CreateUserParams, SignInParams } from "@/type";
-import { Account, Avatars, Client, Databases, ID } from "react-native-appwrite";
+import {
+  Account,
+  Avatars,
+  Client,
+  Databases,
+  ID,
+  Query,
+  TablesDB,
+} from "react-native-appwrite";
 
 let client: Client = new Client();
 let account: Account;
 let databases: Databases;
 let avatars: Avatars;
+let tablesDB: TablesDB;
 
 export const appwriteConfig = {
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
@@ -20,11 +29,11 @@ client
   .setPlatform(appwriteConfig.platform);
 
 account = new Account(client);
-databases = new Databases(client);
+tablesDB = new TablesDB(client);
 avatars = new Avatars(client);
 
-const userTable = "users";
-const ordersTable = "orders";
+const userTable = "user";
+const ordersTable = "order";
 
 async function logIn({ email, password }: SignInParams) {
   try {
@@ -49,18 +58,34 @@ async function signUp({ name, email, password }: CreateUserParams) {
     await logIn({ email, password });
 
     //   get avatar URL
-    const avatarUrl = avatars.getInitialsURL(name)
+    const avatarUrl = avatars.getInitialsURL(name);
 
     //   create user in DB
-    return await databases.createDocument(appwriteConfig.databaseId, userTable, ID.unique(), {
-      name,
-      email,
-      avatar: avatarUrl,
-      accountId: user.$id,
+    return await tablesDB.createRow({
+      databaseId: appwriteConfig.databaseId!,
+      tableId: userTable,
+      rowId: ID.unique(),
+      data: { name, email, avatar: avatarUrl, accountId: user.$id, },
     });
   } catch (error) {
     throw new Error(error as string);
   }
 }
 
-export { client, account, databases, avatars, logIn, signUp };
+async function getCurrentUser() {
+  try {
+    const currentUser = await account.get();
+    if (!currentUser) throw new Error("Session not found");
+
+    const user = await tablesDB.getRow({
+      databaseId: appwriteConfig.databaseId!,
+      tableId: userTable,
+      rowId: currentUser.$id,
+    })
+    
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export { client, account, databases, avatars, logIn, signUp, getCurrentUser };
