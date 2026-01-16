@@ -80,8 +80,13 @@ async function getCurrentUser() {
     const user = await tablesDB.getRow({
       databaseId: appwriteConfig.databaseId!,
       tableId: userTable,
-      rowId: currentUser.$id,
+      rowId: "",
+      queries: [Query.equal("accountId", currentUser.$id)],
     })
+
+    //  gets the first user from the rows and it's details
+    console.log(user.rows[0]);
+    return user.rows[0];
     
   } catch (error) {
     throw new Error(error as string);
