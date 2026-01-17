@@ -33,7 +33,7 @@ tablesDB = new TablesDB(client);
 avatars = new Avatars(client);
 
 const userTable = "user";
-const ordersTable = "order";
+// const ordersTable = "order";
 
 async function logIn({ email, password }: SignInParams) {
   try {
@@ -85,7 +85,6 @@ async function getCurrentUser() {
     })
 
     //  gets the first user from the rows and it's details
-    console.log(user.rows[0]);
     return user.rows[0];
     
   } catch (error) {

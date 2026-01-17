@@ -1,7 +1,4 @@
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import { images } from "@/constants";
-import { Slot } from "expo-router";
+import { Redirect, Slot } from "expo-router";
 import {
   Dimensions,
   Image,
@@ -13,7 +10,14 @@ import {
 } from "react-native";
 // import { SafeAreaView } from "react-native-safe-area-context";
 
-const _layout = () => {
+import { images } from "@/constants";
+import { useAuthStore } from "@/stores/authStore";
+
+const AuthLayout = () => {
+
+  const { isAuthenticated } = useAuthStore(); // Get authentication status  
+
+  if(isAuthenticated)  return <Redirect href="/" />;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "android" ? "height" : "padding"}
@@ -42,4 +46,4 @@ const _layout = () => {
   );
 };
 
-export default _layout;
+export default AuthLayout;

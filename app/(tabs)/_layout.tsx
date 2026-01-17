@@ -1,7 +1,9 @@
 import { Redirect, Slot } from "expo-router";
 
-export default function _layout() {
-  const isAuthenticated = false; // Replace with your authentication logic
+import { useAuthStore } from "@/stores/authStore";
+
+export default function TabLayout() {
+  const { isAuthenticated } = useAuthStore(); // Get authentication status
 
   if (!isAuthenticated) return <Redirect href="/login" />;
   return <Slot />;
