@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { logIn } from "@/lib/appwrite";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useState } from "react";
 // import { router } from "expo-router";
 import { Alert, Text, View } from "react-native";
@@ -32,7 +32,7 @@ const Login = () => {
         // Simulate a network request
         await logIn({ email, password });
         Alert.alert("Success", "Login Successful");
-        // router.replace("/(tabs)/home");
+        router.replace("/");
     } catch (error: any) {
       Alert.alert("Error", error?.message || "An error occurred during login");
     } finally {
